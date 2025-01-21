@@ -1,0 +1,35 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: ubuntu-ssh
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: ubuntu-ssh
+  template:
+    metadata:
+      labels:
+        app: ubuntu-ssh
+    spec:
+      containers:
+        - name: ubuntu-ssh
+          image: phusion/baseimage:focal-1.0.0
+          volumeMounts:
+            - name: public-key
+              mountPath: /opt/var/akeyless/pubkey
+            - name: startup-script
+              mountPath: /opt/var/akeyless/startup
+          command: [ "./opt/var/akeyless/startup/startup.sh" ]
+          ports:
+            - containerPort: 22
+              name: ssh
+              protocol: TCP
+      volumes:
+        - name: public-key
+          configMap: 
+            name: public-key-config
+        - name: startup-script
+          configMap:
+            name: startup-script-config
+            defaultMode: 0777

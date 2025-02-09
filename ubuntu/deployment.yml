@@ -14,6 +14,7 @@ spec:
     spec:
       containers:
         - name: ubuntu-ssh
+          # image: phusion/baseimage:noble-1.0.0
           image: phusion/baseimage:focal-1.0.0
           volumeMounts:
             - name: public-key

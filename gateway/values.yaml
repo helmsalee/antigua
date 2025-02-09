@@ -1,3 +1,6 @@
+# Variables
+version: 4.27.0
+
 ############
 ## Global ##
 ############
@@ -8,11 +11,11 @@ globalConfig:
     ## https://docs.akeyless.io/docs/gateway-chart#authentication
     ##
     gatewayAccessId: p-s19m95nf7gq9am
+    gatewayAccessType: access_key    
 
     # GCP Way
     # gatewayAccessId: p-s19m95nf7gq9am 
 
-    gatewayAccessType: access_key
     ## Use K8s secret to set the following types: access_key, certificate, uid
     ## Create a K8s secret, run 'kubect apply' and add secret name (see docs for examples)
     ## keys: gateway-access-key, gateway-certificate, gateway-certificate-key, gateway-uid-token
@@ -139,6 +142,7 @@ gateway:
       #  repository: akeyless/base
       #   Alternative mirror registry
       #  repository: docker.registry-2.akeyless.io/base
+      # pullPolicy: IfNotPresent | Always
       pullPolicy: IfNotPresent
 
     # Place here any pod annotations you may need
@@ -311,17 +315,18 @@ sra:
   ## Enable secure-remote-access. Valid values: true/false.
   ## For more information on a Quick Start guide for Remote Access <https://docs.akeyless.io/docs/remote-access-quick-start-guide>
   ## Or setup SRA on K8s <https://docs.akeyless.io/docs/remote-access-setup-k8s>
-  enabled: false
+  # enabled: false
+  enabled: true
 
   image:
     ##  Default image repository is: akeyless/zero-trust-bastion
     ##
+    # pullPolicy: IfNotPresent | Always
     pullPolicy: IfNotPresent
     #  tag: latest
 
   env: []
   
-
   ## The below section is for the Remote Access Web app
   ##
   webConfig:
@@ -394,7 +399,9 @@ sra:
     ## This is a required RSA Public Key for your Akeyless SSH Cert Issuer
     ## See docs for examples <https://docs.akeyless.io/docs/remote-access-setup-k8s#ssh--config>
     ##
-    CAPublicKey:
+    CAPublicKey: |
+      ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQClMw+jz7bTCeAyk1p/zc/kBtuyq4lH1YagOj7rBayZ2AqtofKDgqPr3wrb28RhSifs8Ck2JDkCFZrEIMpkToJsLYEuH8Xm0bGasr4pVvJsfENI4GXOSrx0mTrFGvhybRTvqkEhdzGekiRxqFJN1bkUCuWzAFs1Pbh5+IAWLmzRyGMqYxbBX9j7IQ1daFsbGNMLuBY0YqOM3sUyLjyBgP/xjPfb5qJrrjEGnSUFx7iXR+Ls5b7E/kFN0q+fjizZ0WGFNpeycPOCdM9aLrn+KNSEGzGwrq14YbdQiyRq8wsQUAgctaeJTRTxpSlp8PIJTFwZ5R+3pYaxGW1WQsNLr33L
+
     # CAPublicKey: |
 
     ## Use this parameter to store fingerprint information in a specific folder within your Akeyless account.

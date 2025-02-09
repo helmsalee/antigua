@@ -1,17 +1,19 @@
 apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 
-commonLabels:
-  app: ubuntu
-
 resources:
-  - deployment.yml
-  - service.yml
+- deployment.yml
+- service.yml
 
 configMapGenerator:
-  - name: public-key-config
-    files:
-      - ca.pub
-  - name: startup-script-config
-    files:
-    - startup.sh
+- files:
+  - ca.pub
+  name: public-key-config
+- files:
+  - startup.sh
+  name: startup-script-config
+
+generatorOptions:
+  disableNameSuffixHash: true
+  labels:
+    app: ubuntu-ssh
